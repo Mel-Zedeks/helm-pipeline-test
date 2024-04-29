@@ -12,14 +12,15 @@ pipeline {
     }
 
     stages {
-        // stage('Check Out') {
-        //     // steps {
-        //         // sh 'echo "Checking out helm chart..."'
-        //         // git branch: "${BRANCH_NAME}",
-        //         // url: "${REPO_URI}"
-        //         // sh 'echo "Successfully checked out helm chart"'
-        //     }
-        // }
+        stage('Install Helm') {
+            steps {
+                sh 'echo "Installing helm..."'
+                // git branch: "${BRANCH_NAME}",
+                // url: "${REPO_URI}"
+                sh 'sudo apt-get install helm'
+                sh 'echo "Successfully installed helm"'
+            }
+        }
         stage('Packaging Helm') {
             steps {
                 sh 'echo "Packaging helm chart"'
