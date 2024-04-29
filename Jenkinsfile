@@ -21,21 +21,21 @@ pipeline {
                 sh 'ls /'
                 // git branch: "${BRANCH_NAME}",
                 // url: "${REPO_URI}"
-                // dir('/') {
-                script {
-                    // Define variables
-                    def helmVersion = 'v3.14.0'
-                    def helmDownloadUrl = "https://get.helm.sh/helm-${helmVersion}-linux-amd64.tar.gz"
+                dir('/home') {
+                    script {
+                        // Define variables
+                        def helmVersion = 'v3.14.0'
+                        def helmDownloadUrl = "https://get.helm.sh/helm-${helmVersion}-linux-amd64.tar.gz"
 
-                    // Download and install Helm
-                    sh "curl -LO ${helmDownloadUrl}"
-                    sh "tar -zxvf helm-${helmVersion}-linux-amd64.tar.gz"
-                    // sh 'mv linux-amd64/helm /usr/local/bin/'
+                        // Download and install Helm
+                        sh "curl -LO ${helmDownloadUrl}"
+                        sh "tar -zxvf helm-${helmVersion}-linux-amd64.tar.gz"
+                        sh 'mv linux-amd64/helm /usr/local/bin/helm'
 
-                    // Test Helm installation
-                    sh './linux-amd64/helm version'
+                        // Test Helm installation
+                        sh './linux-amd64/helm version'
+                    }
                 }
-                // }
                 sh 'echo "Successfully installed helm"'
             }
         }
