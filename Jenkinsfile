@@ -56,7 +56,7 @@ pipeline {
                     [
                         artifactId: "${APP_NAME}",
                         classifier: '',
-                        file: "${APP_NAME}",
+                        file: "${APP_NAME}-${APP_VERSION}.tgz",
                         type: 'tgz'
                     ]
                 ]
