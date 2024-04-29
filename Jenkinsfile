@@ -51,28 +51,28 @@ pipeline {
                 }
             }
         }
-    // stage('Upload to Nexus') {
-    //     steps {
-    //         sh 'echo "Pushing helm package to artifactory."'
-    //         nexusArtifactUploader(
-    //         nexusVersion: 'nexus3',
-    //         protocol: 'http',
-    //         nexusUrl: "${NEXUS_URL}",
-    //         groupId: '',
-    //         version: "${APP_VERSION}",
-    //         repository: "${NEXUS_REPO}",
-    //         credentialsId: 'nexus-credentials',
-    //         artifacts: [
-    //             [
-    //                 artifactId: "${APP_NAME}",
-    //                 classifier: '',
-    //                 file: "${APP_NAME}-${APP_VERSION}.tgz",
-    //                 type: 'tgz'
-    //             ]
-    //         ]
-    //     )
-    //         sh 'echo "Successfully pushed helm package."'
-    //     }
-    // }
+        stage('Upload to Nexus') {
+            steps {
+                sh 'echo "Pushing helm package to artifactory."'
+                nexusArtifactUploader(
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    nexusUrl: "${NEXUS_URL}",
+                    groupId: '',
+                    version: "${APP_VERSION}",
+                    repository: "${NEXUS_REPO}",
+                    credentialsId: 'nexus-credentials',
+                    artifacts: [
+                        [
+                            artifactId: "${APP_NAME}",
+                            classifier: '',
+                            file: "${APP_NAME}-${APP_VERSION}.tgz",
+                            type: 'tgz'
+                        ]
+                    ]
+                )
+                sh 'echo "Successfully pushed helm package."'
+            }
+        }
     }
 }
