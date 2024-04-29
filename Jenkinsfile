@@ -17,12 +17,12 @@ pipeline {
             steps {
                 sh 'echo "Installing helm..."'
                 script {
-                    if (fileExists('../helm')) {
+                    if (fileExists('bin')) {
                     } else {
-                        sh 'mkdir ../helm'
+                        sh 'mkdir bin'
                     }
                 }
-                dir('../helm') {
+                dir('bin') {
                     script {
                         sh 'pwd'
                         // Define variables
@@ -33,6 +33,7 @@ pipeline {
                         sh "curl -LO ${helmDownloadUrl}"
                         sh "tar -zxvf helm-${helmVersion}-linux-amd64.tar.gz"
                         sh 'mv linux-amd64/helm ./'
+                        sh 'rm -rf linux-amd64'
 
                         // Test Helm installation
                         sh './helm version'
@@ -43,10 +44,10 @@ pipeline {
         }
         stage('Packaging Helm') {
             steps {
-                dir('../Helm-Pipeline') {
+                dir('helm-chart') {
                     sh 'pwd'
                     sh 'echo "Packaging helm chart"'
-                    sh "../helm/helm package . --version ${APP_VERSION} --app-version ${APP_VERSION}"
+                    sh "./bin/helm package . --version ${APP_VERSION} --app-version ${APP_VERSION}"
                     sh 'echo "Packaging helm chart completed"'
                 }
             }
