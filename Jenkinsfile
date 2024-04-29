@@ -12,14 +12,14 @@ pipeline {
     }
 
     stages {
-        stage('Check Out') {
-            steps {
-                // sh 'echo "Checking out helm chart..."'
-                // git branch: "${BRANCH_NAME}",
-                // url: "${REPO_URI}"
-                // sh 'echo "Successfully checked out helm chart"'
-            }
-        }
+        // stage('Check Out') {
+        //     // steps {
+        //         // sh 'echo "Checking out helm chart..."'
+        //         // git branch: "${BRANCH_NAME}",
+        //         // url: "${REPO_URI}"
+        //         // sh 'echo "Successfully checked out helm chart"'
+        //     }
+        // }
         stage('Packaging Helm') {
             steps {
                 sh 'echo "Packaging helm chart"'
