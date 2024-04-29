@@ -41,13 +41,13 @@ pipeline {
                 sh 'echo "Successfully installed helm"'
             }
         }
-    // stage('Packaging Helm') {
-    //     steps {
-    //         sh 'echo "Packaging helm chart"'
-    //         sh "./linux-amd64/helm package . --version ${APP_VERSION} --app-version ${APP_VERSION}"
-    //         sh 'echo "Packaging helm chart completed"'
-    //     }
-    // }
+        stage('Packaging Helm') {
+            steps {
+                sh 'echo "Packaging helm chart"'
+                sh "../helm/helm package . --version ${APP_VERSION} --app-version ${APP_VERSION}"
+                sh 'echo "Packaging helm chart completed"'
+            }
+        }
     // stage('Upload to Nexus') {
     //     steps {
     //         sh 'echo "Pushing helm package to artifactory."'
