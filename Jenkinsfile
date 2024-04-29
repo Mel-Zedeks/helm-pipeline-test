@@ -17,11 +17,11 @@ pipeline {
             steps {
                 sh 'echo "Installing helm..."'
                 sh 'ls'
-                sh 'pwd'
-                sh 'ls /'
                 sh 'whoami'
                 sh 'cd /home'
                 dir('/home') {
+                    sh 'pwd'
+                    sh 'ls .'
                
                 // git branch: "${BRANCH_NAME}",
                 // url: "${REPO_URI}"
