@@ -17,7 +17,19 @@ pipeline {
                 sh 'echo "Installing helm..."'
                 // git branch: "${BRANCH_NAME}",
                 // url: "${REPO_URI}"
-                sh 'sudo apt-get install helm'
+                script {
+                    // Define variables
+                    def helmVersion = 'v3.14.0'
+                    def helmDownloadUrl = "https://get.helm.sh/helm-${helmVersion}-linux-amd64.tar.gz"
+
+                    // Download and install Helm
+                    sh "curl -LO ${helmDownloadUrl}"
+                    sh "tar -zxvf helm-${helmVersion}-linux-amd64.tar.gz"
+                    sh 'mv linux-amd64/helm /usr/local/bin/'
+
+                    // Test Helm installation
+                    sh 'helm version'
+                }
                 sh 'echo "Successfully installed helm"'
             }
         }
