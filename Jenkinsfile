@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        //  REPO_URI = "https://github.com/Zedeks-Digital/edupah-go"
-        //  BRANCH_NAME = "jenkins"
+          REPO_URI = "https://github.com/Mel-Zedeks/helm-pipeline-test"
+          BRANCH_NAME = "main"
          APP_NAME = 'est-helm-jenkins'
 
          // Nexus Repo
@@ -13,31 +13,42 @@ pipeline {
 
     stages {
         stage('Check Out') {
-            steps {
+            step {
                 sh 'echo "Checking out helm chart..."'
-                sh "helm package ./${APP_NAME} --version 1.0.0 --app-version 1.0.0"
+                git branch: "${BRANCH_NAME}",
+                url: "${REPO_URI}"
                 sh 'echo "Successfully checked out helm chart"'
             }
         }
-         stage('Upload to Nexus') {{
+        stage('Packaging Helm') {
+            steps {
+                sh 'echo "Packaging helm chart"'
+                sh "helm package ./${APP_NAME} --version 1.0.0 --app-version 1.0.0"
+                sh 'echo "Packaging helm chart completed"'
+            }
+        }
+        stage('Upload to Nexus') {
             step {
-                 sh 'echo "Pushing helm package to artifactory."'
-                nexusArtifactUploader {
-                    nexusVersion('nexus3')
-                    protocol('http')
-                    nexusUrl("${NEXUS_URL}")
-                    groupId('com.example')
-                    version('2.4')
-                    repository("${NEXUS_REPO}")
-                    credentialsId('nexus-credentials')
-                    artifact {
-                        artifactId("${APP_NAME}")
-                        type('tgz')
-                        file("${APP_NAME}")
-                    }
-                }
+                sh 'echo "Pushing helm package to artifactory."'
+                nexusArtifactUploader(
+                nexusVersion: 'nexus3',
+                protocol: 'http',
+                nexusUrl: "${NEXUS_URL}",
+                groupId: 'com.example',
+                version: '2.4',
+                repository: "${NEXUS_REPO}",
+                credentialsId: 'nexus-credentials',
+                artifacts: [
+                    [
+                        artifactId: "${APP_NAME}",
+                        classifier: '',
+                        file: "${APP_NAME}.tgz",
+                        type: 'tgz'
+                    ]
+                ]
+            )
                 sh 'echo "Successfully pushed helm package."'
             }
-         }
+        }
     }
 }
