@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     environment {
-        REPO_URI = "https://github.com/Mel-Zedeks/helm-pipeline-test"
-        BRANCH_NAME = "main"
-        APP_NAME = 'est-helm-jenkins'
+        REPO_URI = 'https://github.com/Mel-Zedeks/helm-pipeline-test'
+        BRANCH_NAME = 'main'
+        APP_NAME = 'test-helm-jenkins'
 
-         // Nexus Repo
+        // Nexus Repo
         NEXUS_URL = '172.16.72.131'
         NEXUS_REPO = 'my-helm-repo'
     }
