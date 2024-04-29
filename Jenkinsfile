@@ -43,10 +43,12 @@ pipeline {
         }
         stage('Packaging Helm') {
             steps {
-                sh 'pwd'
-                sh 'echo "Packaging helm chart"'
-                sh "../helm/helm package . --version ${APP_VERSION} --app-version ${APP_VERSION}"
-                sh 'echo "Packaging helm chart completed"'
+                dir('../Helm-Pipeline') {
+                    sh 'pwd'
+                    sh 'echo "Packaging helm chart"'
+                    sh "../helm/helm package . --version ${APP_VERSION} --app-version ${APP_VERSION}"
+                    sh 'echo "Packaging helm chart completed"'
+                }
             }
         }
     // stage('Upload to Nexus') {
