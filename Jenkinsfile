@@ -21,56 +21,57 @@ pipeline {
                 sh 'ls /'
                 sh 'whoami'
                 sh 'cd /home'
-                sh 'ls '
+                dir('/home') {
+               
                 // git branch: "${BRANCH_NAME}",
                 // url: "${REPO_URI}"
-                dir('/home') {
-                    script {
-                        // Define variables
-                        def helmVersion = 'v3.14.0'
-                        def helmDownloadUrl = "https://get.helm.sh/helm-${helmVersion}-linux-amd64.tar.gz"
+                    // script { 
+                    //     sh 'ls '
+                    //     // Define variables
+                    //     def helmVersion = 'v3.14.0'
+                    //     def helmDownloadUrl = "https://get.helm.sh/helm-${helmVersion}-linux-amd64.tar.gz"
 
-                        // Download and install Helm
-                        sh "curl -LO ${helmDownloadUrl}"
-                        sh "tar -zxvf helm-${helmVersion}-linux-amd64.tar.gz"
-                        sh 'mv linux-amd64/helm /usr/local/bin/helm'
+                    //     // Download and install Helm
+                    //     sh "curl -LO ${helmDownloadUrl}"
+                    //     sh "tar -zxvf helm-${helmVersion}-linux-amd64.tar.gz"
+                    //     sh 'mv linux-amd64/helm /usr/local/bin/helm'
 
-                        // Test Helm installation
-                        sh './linux-amd64/helm version'
-                    }
+                    //     // Test Helm installation
+                    //     sh './linux-amd64/helm version'
+                    // }
                 }
                 sh 'echo "Successfully installed helm"'
             }
         }
-        stage('Packaging Helm') {
-            steps {
-                sh 'echo "Packaging helm chart"'
-                sh "./linux-amd64/helm package . --version ${APP_VERSION} --app-version ${APP_VERSION}"
-                sh 'echo "Packaging helm chart completed"'
-            }
-        }
-        stage('Upload to Nexus') {
-            steps {
-                sh 'echo "Pushing helm package to artifactory."'
-                nexusArtifactUploader(
-                nexusVersion: 'nexus3',
-                protocol: 'http',
-                nexusUrl: "${NEXUS_URL}",
-                groupId: '',
-                version: "${APP_VERSION}",
-                repository: "${NEXUS_REPO}",
-                credentialsId: 'nexus-credentials',
-                artifacts: [
-                    [
-                        artifactId: "${APP_NAME}",
-                        classifier: '',
-                        file: "${APP_NAME}-${APP_VERSION}.tgz",
-                        type: 'tgz'
-                    ]
-                ]
-            )
-                sh 'echo "Successfully pushed helm package."'
-            }
-        }
+        // stage('Packaging Helm') {
+        //     steps {
+        //         sh 'echo "Packaging helm chart"'
+        //         sh "./linux-amd64/helm package . --version ${APP_VERSION} --app-version ${APP_VERSION}"
+        //         sh 'echo "Packaging helm chart completed"'
+        //     }
+        // }
+        // stage('Upload to Nexus') {
+        //     steps {
+        //         sh 'echo "Pushing helm package to artifactory."'
+        //         nexusArtifactUploader(
+        //         nexusVersion: 'nexus3',
+        //         protocol: 'http',
+        //         nexusUrl: "${NEXUS_URL}",
+        //         groupId: '',
+        //         version: "${APP_VERSION}",
+        //         repository: "${NEXUS_REPO}",
+        //         credentialsId: 'nexus-credentials',
+        //         artifacts: [
+        //             [
+        //                 artifactId: "${APP_NAME}",
+        //                 classifier: '',
+        //                 file: "${APP_NAME}-${APP_VERSION}.tgz",
+        //                 type: 'tgz'
+        //             ]
+        //         ]
+        //     )
+        //         sh 'echo "Successfully pushed helm package."'
+        //     }
+        // }
     }
 }
