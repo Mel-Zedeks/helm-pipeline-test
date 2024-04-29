@@ -16,22 +16,24 @@ pipeline {
         stage('Install Helm') {
             steps {
                 sh 'echo "Installing helm..."'
-                sh 'mkdir ../helm'
-                dir('../helm') {
-                    script {
-                        // Define variables
-                        def helmVersion = 'v3.14.0'
-                        def helmDownloadUrl = "https://get.helm.sh/helm-${helmVersion}-linux-amd64.tar.gz"
-
-                        // Download and install Helm
-                        sh "curl -LO ${helmDownloadUrl}"
-                        sh "tar -zxvf helm-${helmVersion}-linux-amd64.tar.gz"
-                        sh 'mv linux-amd64/helm ./'
-
-                        // Test Helm installation
-                        sh './helm version'
+                script {
+                    if (fileExists('../helm')) {
+                        
+                    } else {
+                        sh 'mkdir ../helm'
                     }
+                    sh 'cd ../helm'
+                    // Define variables
+                    def helmVersion = 'v3.14.0'
+                    def helmDownloadUrl = "https://get.helm.sh/helm-${helmVersion}-linux-amd64.tar.gz"
 
+                    // Download and install Helm
+                    sh "curl -LO ${helmDownloadUrl}"
+                    sh "tar -zxvf helm-${helmVersion}-linux-amd64.tar.gz"
+                    sh 'mv linux-amd64/helm ./'
+
+                    // Test Helm installation
+                    sh './helm version'
                 }
                 sh 'echo "Successfully installed helm"'
             }
