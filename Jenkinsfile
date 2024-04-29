@@ -25,10 +25,10 @@ pipeline {
                     // Download and install Helm
                     sh "curl -LO ${helmDownloadUrl}"
                     sh "tar -zxvf helm-${helmVersion}-linux-amd64.tar.gz"
-                    sh 'mv linux-amd64/helm /usr/local/bin/'
+                    // sh 'mv linux-amd64/helm /usr/local/bin/'
 
                     // Test Helm installation
-                    sh 'helm version'
+                    sh './helm version'
                 }
                 sh 'echo "Successfully installed helm"'
             }
@@ -36,9 +36,7 @@ pipeline {
         stage('Packaging Helm') {
             steps {
                 sh 'echo "Packaging helm chart"'
-                sh 'pwd'
-                sh 'ls -al'
-                sh 'helm package . --version 1.0.0 --app-version 1.0.0'
+                sh './helm package . --version 1.0.0 --app-version 1.0.0'
                 sh 'echo "Packaging helm chart completed"'
             }
         }
