@@ -2,6 +2,10 @@ pipeline {
     agent any
 
     environment {
+        WORKSPACE = env.WORKSPACE
+        JOB_NAME = env.JOB_NAME
+        BASE_PATH = "${WORKSPACE}/${JOB_NAME}"
+
         REPO_URI = 'https://github.com/Mel-Zedeks/helm-pipeline-test'
         BRANCH_NAME = 'main'
         APP_NAME = 'test-helm-jenkins'
@@ -17,12 +21,12 @@ pipeline {
             steps {
                 sh 'echo "Installing helm..."'
                 script {
-                    if (fileExists('bin')) {
+                    if (fileExists("${BASE_PATH}/bin")) {
                     } else {
-                        sh 'mkdir bin'
+                        sh "mkdir ${BASE_PATH}/bin"
                     }
                 }
-                dir('bin') {
+                dir("${BASE_PATH}/bin") {
                     script {
                         sh 'pwd'
                         // Define variables
@@ -44,7 +48,7 @@ pipeline {
         }
         stage('Packaging Helm') {
             steps {
-                dir('helm-chart') {
+                dir("${BASE_PATH}/helm-chart") {
                     sh 'pwd'
                     sh 'echo "Packaging helm chart"'
                     sh "./bin/helm package . --version ${APP_VERSION} --app-version ${APP_VERSION}"
