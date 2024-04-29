@@ -16,8 +16,12 @@ pipeline {
         stage('Install Helm') {
             steps {
                 sh 'echo "Installing helm..."'
+                sh 'ls'
+                sh 'pwd'
+                sh 'ls /'
                 // git branch: "${BRANCH_NAME}",
                 // url: "${REPO_URI}"
+                // dir('/') {
                 script {
                     // Define variables
                     def helmVersion = 'v3.14.0'
@@ -31,6 +35,7 @@ pipeline {
                     // Test Helm installation
                     sh './linux-amd64/helm version'
                 }
+                // }
                 sh 'echo "Successfully installed helm"'
             }
         }
