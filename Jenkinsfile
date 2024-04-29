@@ -23,6 +23,8 @@ pipeline {
         stage('Packaging Helm') {
             steps {
                 sh 'echo "Packaging helm chart"'
+                sh 'pwd'
+                sh 'ls -al'
                 sh 'helm package . --version 1.0.0 --app-version 1.0.0'
                 sh 'echo "Packaging helm chart completed"'
             }
