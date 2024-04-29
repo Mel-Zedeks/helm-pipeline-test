@@ -2,22 +2,22 @@ pipeline {
     agent any
 
     environment {
-          REPO_URI = "https://github.com/Mel-Zedeks/helm-pipeline-test"
-          BRANCH_NAME = "main"
-         APP_NAME = 'est-helm-jenkins'
+        REPO_URI = "https://github.com/Mel-Zedeks/helm-pipeline-test"
+        BRANCH_NAME = "main"
+        APP_NAME = 'est-helm-jenkins'
 
          // Nexus Repo
-         NEXUS_URL = '172.16.72.131'
-         NEXUS_REPO = 'my-helm-repo'
+        NEXUS_URL = '172.16.72.131'
+        NEXUS_REPO = 'my-helm-repo'
     }
 
     stages {
         stage('Check Out') {
-            step {
-                sh 'echo "Checking out helm chart..."'
-                git branch: "${BRANCH_NAME}",
-                url: "${REPO_URI}"
-                sh 'echo "Successfully checked out helm chart"'
+            steps {
+                // sh 'echo "Checking out helm chart..."'
+                // git branch: "${BRANCH_NAME}",
+                // url: "${REPO_URI}"
+                // sh 'echo "Successfully checked out helm chart"'
             }
         }
         stage('Packaging Helm') {
@@ -28,7 +28,7 @@ pipeline {
             }
         }
         stage('Upload to Nexus') {
-            step {
+            steps {
                 sh 'echo "Pushing helm package to artifactory."'
                 nexusArtifactUploader(
                 nexusVersion: 'nexus3',
