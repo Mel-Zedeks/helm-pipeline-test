@@ -5,6 +5,7 @@ pipeline {
         REPO_URI = 'https://github.com/Mel-Zedeks/helm-pipeline-test'
         BRANCH_NAME = 'main'
         APP_NAME = 'test-helm-jenkins'
+        APP_VERSION = '1.0.0'
 
         // Nexus Repo
         NEXUS_URL = '172.16.72.131'
@@ -36,7 +37,7 @@ pipeline {
         stage('Packaging Helm') {
             steps {
                 sh 'echo "Packaging helm chart"'
-                sh './linux-amd64/helm package . --version 1.0.0 --app-version 1.0.0'
+                sh "./linux-amd64/helm package . --version ${APP_VERSION} --app-version ${APP_VERSION}"
                 sh 'echo "Packaging helm chart completed"'
             }
         }
@@ -48,14 +49,14 @@ pipeline {
                 protocol: 'http',
                 nexusUrl: "${NEXUS_URL}",
                 groupId: 'com.example',
-                version: '2.4',
+                version: "${APP_VERSION}",
                 repository: "${NEXUS_REPO}",
                 credentialsId: 'nexus-credentials',
                 artifacts: [
                     [
                         artifactId: "${APP_NAME}",
                         classifier: '',
-                        file: "${APP_NAME}.tgz",
+                        file: "${APP_NAME}",
                         type: 'tgz'
                     ]
                 ]
