@@ -28,7 +28,7 @@ pipeline {
                     // sh 'mv linux-amd64/helm /usr/local/bin/'
 
                     // Test Helm installation
-                    sh './helm version'
+                    sh './linux-amd64/helm version'
                 }
                 sh 'echo "Successfully installed helm"'
             }
@@ -36,7 +36,7 @@ pipeline {
         stage('Packaging Helm') {
             steps {
                 sh 'echo "Packaging helm chart"'
-                sh './helm package . --version 1.0.0 --app-version 1.0.0'
+                sh './linux-amd64/helm package . --version 1.0.0 --app-version 1.0.0'
                 sh 'echo "Packaging helm chart completed"'
             }
         }
