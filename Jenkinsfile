@@ -19,6 +19,7 @@ pipeline {
                 sh 'ls'
                 sh 'pwd'
                 sh 'ls /'
+                sh 'whoami'
                 // git branch: "${BRANCH_NAME}",
                 // url: "${REPO_URI}"
                 dir('/home') {
