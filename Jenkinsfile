@@ -17,43 +17,11 @@ pipeline {
     }
 
     stages {
-        stage('Install Helm') {
-            steps {
-                sh 'echo "Installing helm..."'
-                script {
-                    if (fileExists("${BASE_PATH}/bin")) {
-                    } else {
-                        sh "mkdir ${BASE_PATH}/bin"
-                    }
-                }
-                dir("${BASE_PATH}/bin") {
-                    script {
-                        sh 'pwd'
-                        // Define variables
-                        def helmVersion = 'v3.14.0'
-                        def helmDownloadUrl = "https://get.helm.sh/helm-${helmVersion}-linux-amd64.tar.gz"
-
-                        // Download and install Helm
-                        sh "curl -LO ${helmDownloadUrl}"
-                        sh "tar -zxvf helm-${helmVersion}-linux-amd64.tar.gz"
-                        sh 'mv linux-amd64/helm ./'
-                        sh 'rm -rf linux-amd64'
-
-                        // Test Helm installation
-                        sh './helm version'
-                    }
-                }
-                sh 'echo "Successfully installed helm"'
-            }
-        }
         stage('Packaging Helm') {
             steps {
-                dir("${BASE_PATH}/helm-chart") {
-                    sh 'pwd'
-                    sh 'echo "Packaging helm chart"'
-                    sh "./bin/helm package . --version ${APP_VERSION} --app-version ${APP_VERSION}"
-                    sh 'echo "Packaging helm chart completed"'
-                }
+                sh 'echo "Packaging helm chart"'
+                sh "helm package . --version ${APP_VERSION} --app-version ${APP_VERSION}"
+                sh 'echo "Packaging helm chart completed"'
             }
         }
         stage('Upload to Nexus') {
