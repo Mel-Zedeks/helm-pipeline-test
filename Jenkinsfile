@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        WORKSPACE = env.WORKSPACE
-        JOB_NAME = env.JOB_NAME
+        WORKSPACE = "${env.WORKSPACE}"
+        JOB_NAME = "${env.JOB_NAME}"
         BASE_PATH = "${WORKSPACE}/${JOB_NAME}"
 
         REPO_URI = 'https://github.com/Mel-Zedeks/helm-pipeline-test'
