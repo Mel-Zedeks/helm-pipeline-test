@@ -63,7 +63,7 @@ pipeline {
         always {
             emailext body: 'Build ${currentBuild.result}: ${env.BUILD_URL}',
             subject: "Notification - ${currentBuild.result}",
-            to: 'recipient@example.com'
+            to: 'melchi.lg@gmail.com'
         }
     }
 }
